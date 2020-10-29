@@ -26,7 +26,7 @@ clean:
 	rm -f ${OBJ} ${PRO}
 
 install:${OBJ}
-	install ${PRO} $(NGINX_INSTALL_DIR)/java
+	install ${PRO} ${OBJ} $(NGINX_INSTALL_DIR)/java
 
 
 
