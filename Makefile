@@ -20,7 +20,7 @@ default: ${PRO}
 
 
 ${PRO}:$(OBJ)
-		${JAR} --create --file ${PRO} ${OBJ}
+	${JAR} --create --file ${PRO} ${OBJ}
 
 clean:
 	rm -f ${OBJ} ${PRO}
