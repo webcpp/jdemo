@@ -10,8 +10,11 @@ hi_java_classpath "-Djava.class.path=.:/usr/local/nginx/java:/usr/local/nginx/ja
 location ~ \.java {
             rewrite ^/(.*)\.java$ /$1 break;
             hi_need_kvdb on;
-		    hi_kvdb_size 50;
-		    hi_kvdb_expires 5m;
+            hi_kvdb_size 50;
+            hi_kvdb_expires 5m;
+            hi_need_session on;
+            hi_need_headers on;
+            hi_need_cookies on;
 		    hi_java_servlet hi/jdemo;	
         }
 
