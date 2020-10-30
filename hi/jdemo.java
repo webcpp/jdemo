@@ -40,6 +40,7 @@ public class jdemo implements hi.servlet {
     }
 
     private void do_error(hi.request req, hi.response res) {
+        res.headers.get(new String("Content-Type")).set(0, new String("text/plain;charset=UTF-8"));
         res.status = 404;
         res.content = "404 Not found";
     }
@@ -84,9 +85,10 @@ public class jdemo implements hi.servlet {
     }
 
     private void do_md5(hi.request req, hi.response res) {
+        res.headers.get(new String("Content-Type")).set(0, new String("text/plain;charset=UTF-8"));
         String plaintext = "hello,md5!";
         res.status = 200;
-        res.content = String.format("%s md5= %s", plaintext, this.md5(plaintext));
+        res.content = String.format("%s\nmd5= %s", plaintext, this.md5(plaintext));
     }
 
     private String md5(String str) {
