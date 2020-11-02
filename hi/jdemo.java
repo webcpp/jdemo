@@ -1,7 +1,6 @@
 
 package hi;
 
-
 import hi.servlet;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ public class jdemo implements hi.servlet {
 
     public void handler(hi.request req, hi.response res) {
 
-        if (req.method.equals(new String("GET"))) {
+        if (req.method.equals("GET")) {
             if (Pattern.matches("^/hello/?$", req.uri)) {
                 this.do_hello(req, res);
             } else if (Pattern.matches("^/error/?$", req.uri)) {
@@ -37,13 +36,13 @@ public class jdemo implements hi.servlet {
     }
 
     private void do_hello(hi.request req, hi.response res) {
-        res.headers.get("Content-Type").set(0, new String("text/plain;charset=UTF-8"));
+        res.headers.get("Content-Type").set(0, "text/plain;charset=UTF-8");
         res.status = 200;
         res.content = "hello,world";
     }
 
     private void do_error(hi.request req, hi.response res) {
-        res.headers.get(new String("Content-Type")).set(0, new String("text/plain;charset=UTF-8"));
+        res.headers.get("Content-Type").set(0, "text/plain;charset=UTF-8");
         res.status = 404;
         res.content = "404 Not found";
     }
@@ -51,12 +50,12 @@ public class jdemo implements hi.servlet {
     private void do_redirect(hi.request req, hi.response res) {
         res.status = 302;
         ArrayList<String> h = new ArrayList<String>();
-        h.add(new String("/hello.java"));
-        res.headers.put(new String("Location"), h);
+        h.add("/hello.java");
+        res.headers.put("Location", h);
     }
 
     private void do_form(hi.request req, hi.response res) {
-        res.headers.get("Content-Type").set(0, new String("text/plain;charset=UTF-8"));
+        res.headers.get("Content-Type").set(0, "text/plain;charset=UTF-8");
         res.status = 200;
 
         res.content = "head data " + req.headers.size() + "\n";
@@ -75,7 +74,7 @@ public class jdemo implements hi.servlet {
     }
 
     private void do_session(hi.request req, hi.response res) {
-        res.headers.get(new String("Content-Type")).set(0, new String("text/plain;charset=UTF-8"));
+        res.headers.get("Content-Type").set(0, "text/plain;charset=UTF-8");
         res.status = 200;
         String key = "test";
         int value = 0;
@@ -88,7 +87,7 @@ public class jdemo implements hi.servlet {
     }
 
     private void do_md5(hi.request req, hi.response res) {
-        res.headers.get(new String("Content-Type")).set(0, new String("text/plain;charset=UTF-8"));
+        res.headers.get("Content-Type").set(0, "text/plain;charset=UTF-8");
         String plaintext = "hello,md5!";
         res.status = 200;
         res.content = String.format("%s\nmd5= %s", plaintext, this.md5(plaintext));
