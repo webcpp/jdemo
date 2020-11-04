@@ -64,11 +64,11 @@ public class jdemo implements hi.servlet {
         res.content = res.content.concat(this.do_foreach(req.headers));
 
         res.content = res.content.concat("\ncookie data ") + req.cookies.size() + "\n";
-        ;
+
         res.content = res.content.concat(this.do_foreach(req.cookies));
 
         res.content = res.content.concat("\nform data ") + req.form.size() + "\n";
-        ;
+
         res.content = res.content.concat(this.do_foreach(req.form));
 
         res.content = res.content.concat(
