@@ -61,20 +61,21 @@ public class jdemo implements hi.servlet {
     private void do_form(hi.request req, hi.response res) {
         res.headers.get("Content-Type").set(0, "text/plain;charset=UTF-8");
         res.status = 200;
+        StringBuilder buffer = new StringBuilder();
 
-        res.content = "head data " + req.headers.size() + "\n";
-        res.content = res.content.concat(this.do_foreach(req.headers));
+        buffer.append("head data " + req.headers.size() + "\n");
+        buffer.append(this.do_foreach(req.headers));
 
-        res.content = res.content.concat("\ncookie data ") + req.cookies.size() + "\n";
+        buffer.append("\ncookie data " + req.cookies.size() + "\n");
+        buffer.append(this.do_foreach(req.cookies));
 
-        res.content = res.content.concat(this.do_foreach(req.cookies));
+        buffer.append("\nform data " + req.form.size() + "\n");
+        buffer.append(this.do_foreach(req.form));
 
-        res.content = res.content.concat("\nform data ") + req.form.size() + "\n";
+        buffer.append(String.format("\nclient= %s\nmethod= %s\nuser_agent= %s\nuri= %s\nparam= %s\n", req.client,
+                req.method, req.user_agent, req.uri, req.param));
 
-        res.content = res.content.concat(this.do_foreach(req.form));
-
-        res.content = res.content.concat(
-                String.format("\n%s\n%s\n%s\n%s\n%s\n", req.client, req.method, req.user_agent, req.uri, req.param));
+        res.content = buffer.toString();
     }
 
     private void do_session(hi.request req, hi.response res) {
