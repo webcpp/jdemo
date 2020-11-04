@@ -111,8 +111,8 @@ public class jdemo implements hi.servlet {
 
     private String do_foreach(HashMap<String, String> m) {
         String result = "";
-        for (String k : m.keySet()) {
-            result = result.concat(String.format("%s\t=\t%s\n", k, m.get(k)));
+        for (HashMap.Entry<String, String> item : m.entrySet()) {
+            result = result.concat(String.format("%s\t=\t%s\n", item.getKey(), item.getValue()));
         }
         return result;
     }
