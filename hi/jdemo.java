@@ -5,6 +5,7 @@ import hi.servlet;
 import hi.route;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 
@@ -22,9 +23,10 @@ public class jdemo implements hi.servlet {
         jdemo.r.get("^/redirect/?$", (hi.request req, hi.response res, Matcher m) -> {
             this.do_redirect(req, res);
         });
-        jdemo.r.get("^/form/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_form(req, res);
-        });
+        jdemo.r.add(new ArrayList<String>(Arrays.asList("GET", "POST")), "^/form/?$",
+                (hi.request req, hi.response res, Matcher m) -> {
+                    this.do_form(req, res);
+                });
         jdemo.r.get("^/session/?$", (hi.request req, hi.response res, Matcher m) -> {
             this.do_session(req, res);
         });
