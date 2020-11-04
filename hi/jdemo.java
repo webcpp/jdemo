@@ -2,37 +2,39 @@
 package hi;
 
 import hi.servlet;
+import hi.route;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class jdemo implements hi.servlet {
 
-    public jdemo() {
+    private static hi.route r = hi.route.get_instance();
 
+    public jdemo() {
+        jdemo.r.get("^/(hello|test)/?$", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_hello(req, res);
+        });
+        jdemo.r.get("^/error/?$", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_error(req, res);
+        });
+        jdemo.r.get("^/redirect/?$", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_redirect(req, res);
+        });
+        jdemo.r.get("^/form/?$", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_form(req, res);
+        });
+        jdemo.r.get("^/session/?$", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_session(req, res);
+        });
+        jdemo.r.get("^/md5/?$", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_md5(req, res);
+        });
     }
 
     public void handler(hi.request req, hi.response res) {
-
-        if (req.method.equals("GET")) {
-            if (Pattern.matches("^/hello/?$", req.uri)) {
-                this.do_hello(req, res);
-            } else if (Pattern.matches("^/error/?$", req.uri)) {
-                this.do_error(req, res);
-            } else if (Pattern.matches("^/redirect/?$", req.uri)) {
-                this.do_redirect(req, res);
-            } else if (Pattern.matches("^/form/?$", req.uri)) {
-                this.do_form(req, res);
-            } else if (Pattern.matches("^/session/?$", req.uri)) {
-                this.do_session(req, res);
-            } else if (Pattern.matches("^/md5/?$", req.uri)) {
-                this.do_md5(req, res);
-            } else {
-                this.do_error(req, res);
-            }
-
-        }
+        jdemo.r.run(req, res);
     }
 
     private void do_hello(hi.request req, hi.response res) {
