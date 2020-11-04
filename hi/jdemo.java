@@ -113,10 +113,10 @@ public class jdemo implements hi.servlet {
     }
 
     private String do_foreach(HashMap<String, String> m) {
-        String result = "";
+        StringBuffer buffer = new StringBuffer();
         for (HashMap.Entry<String, String> item : m.entrySet()) {
-            result = result.concat(String.format("%s\t=\t%s\n", item.getKey(), item.getValue()));
+            buffer.append(String.format("%s\t=\t%s\n", item.getKey(), item.getValue()));
         }
-        return result;
+        return buffer.toString();
     }
 }
