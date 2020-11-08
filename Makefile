@@ -29,7 +29,7 @@ default: ${PRO}
 
 
 ${PRO}:$(OBJ) $(GOBJ)
-	${JAR} --create --file ${PRO} ${OBJ} ${GOBJ}
+	${JAR} --create --file ${PRO} $^
 
 clean:
 	rm -f ${OBJ} $(GOBJ) ${PRO}
