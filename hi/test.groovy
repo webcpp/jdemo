@@ -1,30 +1,39 @@
 package hi
 
-import hi.servlet
+import hi.*
+import java.util.regex.Matcher
 
 import java.util.ArrayList
 import java.util.HashMap
 
 class test implements hi.servlet {
 
+    static hi.route r = new hi.route()
+
+    public test() {
+        test.r.get('^/(hello|test)/?$', (hi.request req, hi.response res, Matcher m) -> {
+            this.do_hello(req, res)
+        });
+        test.r.get('^/error/?$', (hi.request req, hi.response res, Matcher m) -> {
+            this.do_error(req, res)
+        });
+        test.r.get('^/redirect/?$', (hi.request req, hi.response res, Matcher m) -> {
+            this.do_redirect(req, res)
+        });
+        test.r.add(new ArrayList<String>(Arrays.asList('GET', 'POST')), '^/form/?$',
+                (hi.request req, hi.response res, Matcher m) -> {
+                    this.do_form(req, res)
+                });
+        test.r.get('^/session/?$', (hi.request req, hi.response res, Matcher m) -> {
+            this.do_session(req, res)
+        });
+        test.r.get('^/md5/?$', (hi.request req, hi.response res, Matcher m) -> {
+            this.do_md5(req, res)
+        });
+    }
+
     public void handler(hi.request req, hi.response res) {
-        if (req.method.equals('GET')) {
-            if (req.uri.matches('^/(hello|test)/?$')) {
-                this.do_hello(req, res)
-            } else if (req.uri.matches('^/error/?$')) {
-                this.do_error(req, res)
-            } else if (req.uri.matches('^/redirect/?$')) {
-                this.do_redirect(req, res)
-            } else if (req.uri.matches('^/form/?$')) {
-                this.do_form(req, res)
-            } else if (req.uri.matches('^/session/?$')) {
-                this.do_session(req, res)
-            } else if (req.uri.matches('^/md5/?$')) {
-                this.do_md5(req, res)
-            } else {
-                this.do_error(req, res)
-            }
-        }
+        test.r.run(req, res)
     }
 
     private void do_hello(hi.request req, hi.response res) {
