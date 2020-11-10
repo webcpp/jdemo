@@ -4,23 +4,22 @@ import hi.servlet
 
 import java.util.ArrayList
 import java.util.HashMap
-import java.util.regex.Pattern
 
 class test implements hi.servlet {
 
     public void handler(hi.request req, hi.response res) {
         if (req.method.equals('GET')) {
-            if (Pattern.matches("^/hello/?\$", req.uri)) {
+            if (req.uri.matches('^/(hello|test)/?$')) {
                 this.do_hello(req, res)
-            } else if (Pattern.matches("^/error/?\$", req.uri)) {
+            } else if (req.uri.matches('^/error/?$')) {
                 this.do_error(req, res)
-            } else if (Pattern.matches("^/redirect/?\$", req.uri)) {
+            } else if (req.uri.matches('^/redirect/?$')) {
                 this.do_redirect(req, res)
-            } else if (Pattern.matches("^/form/?\$", req.uri)) {
+            } else if (req.uri.matches('^/form/?$')) {
                 this.do_form(req, res)
-            } else if (Pattern.matches("^/session/?\$", req.uri)) {
+            } else if (req.uri.matches('^/session/?$')) {
                 this.do_session(req, res)
-            } else if (Pattern.matches("^/md5/?\$", req.uri)) {
+            } else if (req.uri.matches('^/md5/?$')) {
                 this.do_md5(req, res)
             } else {
                 this.do_error(req, res)
