@@ -1,38 +1,36 @@
 
-SRC:=$(shell find . -name *.java -type f)
-OBJ:=$(patsubst %.java,%.class,$(SRC))
-
-GSRC:=$(shell find . -name *.groovy -type f)
-GOBJ:=$(patsubst %.groovy,%.class,$(GSRC))
-
 PRO=jdemo.jar
 
 ifndef NGINX_INSTALL_DIR
 NGINX_INSTALL_DIR=/usr/local/nginx
 endif
 
-JFLAGS =-classpath .:${CLASSPATH}
-JC = ${JAVA_HOME}/bin/javac
 
-GC = ${GROOVY_HOME}/bin/groovyc
-GFLAGS = $(JFLAGS)
+JAVAC = ${JAVA_HOME}/bin/javac
+JAVA_FLAGS =-classpath .:${CLASSPATH}
+
+GROOVYC = ${GROOVY_HOME}/bin/groovyc
+GROOVY_FLAGS = $(JFLAGS)
 
 JAR = ${JAVA_HOME}/bin/jar
+JAR_FLAGS = --create --file
 
-%.class:%.java
-	$(JC) $(JFLAGS) $^
 
-%.class:%.groovy
-	$(GC) $(GFLAGS) $^
 
 default: ${PRO}
 
+${PRO}:
+	find . -name *.java -type f > jsrc.list && \
+	$(JAVAC) $(JAVA_FLAGS) @jsrc.list
+	find . -name *.groovy -type f > gsrc.list && \
+	$(GROOVYC) $(GROOVY_FLAGS) @gsrc.list 
+	find . -name *.class -type f > class.list && \
+	$(JAR) $(JAR_FLAGS) ${PRO} @class.list
 
-${PRO}:$(OBJ) $(GOBJ)
-	${JAR} --create --file ${PRO} $^
 
 clean:
-	rm -f ${OBJ} $(GOBJ) ${PRO}
+	rm -f ${PRO} jsrc.list gsrc.list `cat class.list` class.list
+
 
 install:${OBJ}
 	install ${PRO} $(NGINX_INSTALL_DIR)/java
