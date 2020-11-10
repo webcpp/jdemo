@@ -2,6 +2,7 @@ package hi
 
 import hi.servlet
 import hi.route
+import static hi.route.get_instance as route_instance
 
 import java.util.regex.Matcher
 import java.util.ArrayList
@@ -9,7 +10,7 @@ import java.util.HashMap
 
 class test implements hi.servlet {
 
-    static hi.route r = new hi.route()
+    static hi.route r = route_instance()
 
     public test() {
         test.r.get('^/(hello|test)/?$', (hi.request req, hi.response res, Matcher m) -> {
