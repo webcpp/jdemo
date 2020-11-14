@@ -101,7 +101,7 @@ class test implements hi.servlet {
 
     private String do_foreach(HashMap<String, String> m) {
         StringBuffer buffer = new StringBuffer()
-        for (HashMap.Entry<String, String> item : m.entrySet()) {
+        for (item in m.entrySet()) {
             buffer.append(String.format("%s\t=\t%s\n", item.getKey(), item.getValue()))
         }
         return buffer.toString()
