@@ -40,7 +40,7 @@ class test implements hi.servlet {
 
     private void do_hello(hi.request req, hi.response res) {
         res.set_content_type('text/plain;charset=UTF-8');
-        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
+        res.set_cookie('test-k', 'test-v', 'max-age=3; Path=/;');
         res.status = 200
         res.content = 'hello,world'
     }
@@ -58,7 +58,7 @@ class test implements hi.servlet {
 
     private void do_form(hi.request req, hi.response res) {
         res.set_content_type('text/plain;charset=UTF-8');
-        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
+        res.set_cookie('test-k', 'test-v', 'max-age=3; Path=/;');
         res.status = 200
         StringBuilder buffer = new StringBuilder()
 
@@ -79,7 +79,7 @@ class test implements hi.servlet {
 
     private void do_session(hi.request req, hi.response res) {
         res.set_content_type('text/plain;charset=UTF-8');
-        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
+        res.set_cookie('test-k', 'test-v', 'max-age=3; Path=/;');
         res.status = 200
         String key = 'test'
         int value = 0
@@ -93,7 +93,7 @@ class test implements hi.servlet {
 
     private void do_md5(hi.request req, hi.response res) {
         res.set_content_type('text/plain;charset=UTF-8');
-        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
+        res.set_cookie('test-k', 'test-v', 'max-age=3; Path=/;');
         String plaintext = 'hello,md5!'
         res.status = 200
         res.content = String.format('%s\nmd5= %s', plaintext, plaintext.md5() )
