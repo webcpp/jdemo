@@ -39,26 +39,26 @@ class test implements hi.servlet {
     }
 
     private void do_hello(hi.request req, hi.response res) {
-        res.headers.get('Content-Type').set(0, 'text/plain;charset=UTF-8');
+        res.set_content_type('text/plain;charset=UTF-8');
+        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
         res.status = 200
         res.content = 'hello,world'
     }
 
     private void do_error(hi.request req, hi.response res) {
-        res.headers.get('Content-Type').set(0, 'text/plain;charset=UTF-8');
+        res.set_content_type('text/plain;charset=UTF-8');
         res.status = 404
         res.content = '404 Not found'
     }
 
     private void do_redirect(hi.request req, hi.response res) {
         res.status = 302
-        ArrayList<String> h = new ArrayList<String>()
-        h.add('/hello.java')
-        res.headers.put('Location', h)
+        res.set_header('Location', '/hello.java')
     }
 
     private void do_form(hi.request req, hi.response res) {
-        res.headers.get('Content-Type').set(0, 'text/plain;charset=UTF-8');
+        res.set_content_type('text/plain;charset=UTF-8');
+        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
         res.status = 200
 
         res.content = 'head data ' + req.headers.size() + '\n'
@@ -77,7 +77,8 @@ class test implements hi.servlet {
     }
 
     private void do_session(hi.request req, hi.response res) {
-        res.headers.get('Content-Type').set(0, 'text/plain;charset=UTF-8');
+        res.set_content_type('text/plain;charset=UTF-8');
+        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
         res.status = 200
         String key = 'test'
         int value = 0
@@ -90,7 +91,8 @@ class test implements hi.servlet {
     }
 
     private void do_md5(hi.request req, hi.response res) {
-        res.headers.get('Content-Type').set(0, 'text/plain;charset=UTF-8');
+        res.set_content_type('text/plain;charset=UTF-8');
+        res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
         String plaintext = 'hello,md5!'
         res.status = 200
         res.content = String.format('%s\nmd5= %s', plaintext, plaintext.md5() )
