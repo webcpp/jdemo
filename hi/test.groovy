@@ -60,20 +60,21 @@ class test implements hi.servlet {
         res.set_content_type('text/plain;charset=UTF-8');
         res.set_cookie('test-k', 'test-v', 'max-age=3;Path=/');
         res.status = 200
+        StringBuilder buffer = new StringBuilder()
 
-        res.content = 'head data ' + req.headers.size() + '\n'
-        res.content = res.content.concat(this.do_foreach(req.headers))
+        buffer.append('head data ' + req.headers.size() + '\n')
+        buffer.append(this.do_foreach(req.headers))
 
-        res.content = res.content.concat('\ncookie data ') + req.cookies.size() + '\n'
-        ;
-        res.content = res.content.concat(this.do_foreach(req.cookies))
+        buffer.append('\ncookie data ' + req.cookies.size() + '\n')
+        buffer.append(this.do_foreach(req.cookies))
 
-        res.content = res.content.concat('\nform data ') + req.form.size() + '\n'
-        ;
-        res.content = res.content.concat(this.do_foreach(req.form))
+        buffer.append('\nform data ' + req.form.size() + '\n')
+        buffer.append(this.do_foreach(req.form))
 
-        res.content = res.content.concat(
-                String.format('\n%s\n%s\n%s\n%s\n%s\n', req.client, req.method, req.user_agent, req.uri, req.param))
+        buffer.append(String.format('\nclient= %s\nmethod= %s\nuser_agent= %s\nuri= %s\nparam= %s\n', req.client,
+                req.method, req.user_agent, req.uri, req.param))
+
+        res.content = buffer.toString()
     }
 
     private void do_session(hi.request req, hi.response res) {
@@ -99,11 +100,11 @@ class test implements hi.servlet {
     }
 
     private String do_foreach(HashMap<String, String> m) {
-        String result = ''
-        for (String k : m.keySet()) {
-            result = result.concat(String.format("%s\t=\t%s\n", k, m.get(k)))
+        StringBuffer buffer = new StringBuffer()
+        for (HashMap.Entry<String, String> item : m.entrySet()) {
+            buffer.append(String.format("%s\t=\t%s\n", item.getKey(), item.getValue()))
         }
-        return result
+        return buffer.toString()
     }
 
 }
