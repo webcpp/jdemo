@@ -24,5 +24,7 @@ hs_err_pid*
 
 *.class
 *.list
+*.jmx
 
 mysql:/
+test/
