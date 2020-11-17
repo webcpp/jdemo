@@ -32,6 +32,11 @@ clean:
 	rm -f ${PRO} jsrc.list gsrc.list `cat class.list` class.list
 
 
+jmeter:
+	[ -d test ] && rm -rf test
+	mkdir test && echo 'mkdir'
+	/usr/lib/jvm/apache-jmeter-5.3/bin/jmeter -n -t test.jmx -l test/ret -e -o test
+
 install:${OBJ}
 	install ${PRO} $(NGINX_INSTALL_DIR)/java
 
