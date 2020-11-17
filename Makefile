@@ -34,7 +34,7 @@ clean:
 
 jmeter:
 	[ -d test ] && rm -rf test
-	mkdir test && echo 'mkdir'
+	mkdir test
 	/usr/lib/jvm/apache-jmeter-5.3/bin/jmeter -n -t test.jmx -l test/ret -e -o test
 
 install:${OBJ}
