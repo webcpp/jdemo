@@ -8,34 +8,34 @@ import java.util.regex.Matcher
 import java.util.ArrayList
 import java.util.HashMap
 
-class test implements hi.servlet {
+class gdemo implements hi.servlet {
 
     static hi.route r = route_instance()
 
-    public test() {
-        test.r.get('^/(hello|test)/?$', (hi.request req, hi.response res, Matcher m) -> {
+    public gdemo() {
+        gdemo.r.get('^/(hello|test)/?$', (hi.request req, hi.response res, Matcher m) -> {
             this.do_hello(req, res)
         });
-        test.r.get('^/error/?$', (hi.request req, hi.response res, Matcher m) -> {
+        gdemo.r.get('^/error/?$', (hi.request req, hi.response res, Matcher m) -> {
             this.do_error(req, res)
         });
-        test.r.get('^/redirect/?$', (hi.request req, hi.response res, Matcher m) -> {
+        gdemo.r.get('^/redirect/?$', (hi.request req, hi.response res, Matcher m) -> {
             this.do_redirect(req, res)
         });
-        test.r.add(new ArrayList<String>(Arrays.asList('GET', 'POST')), '^/form/?$',
+        gdemo.r.add(new ArrayList<String>(Arrays.asList('GET', 'POST')), '^/form/?$',
                 (hi.request req, hi.response res, Matcher m) -> {
                     this.do_form(req, res)
                 });
-        test.r.get('^/session/?$', (hi.request req, hi.response res, Matcher m) -> {
+        gdemo.r.get('^/session/?$', (hi.request req, hi.response res, Matcher m) -> {
             this.do_session(req, res)
         });
-        test.r.get('^/md5/?$', (hi.request req, hi.response res, Matcher m) -> {
+        gdemo.r.get('^/md5/?$', (hi.request req, hi.response res, Matcher m) -> {
             this.do_md5(req, res)
         });
     }
 
     public void handler(hi.request req, hi.response res) {
-        test.r.run(req, res)
+        gdemo.r.run(req, res)
     }
 
     private void do_hello(hi.request req, hi.response res) {
