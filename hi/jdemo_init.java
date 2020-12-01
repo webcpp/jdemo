@@ -6,7 +6,10 @@ import hi.route;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
+import com.samskivert.mustache.Template;
+import com.samskivert.mustache.Mustache;
 
 class jdemo_init {
     private static hi.route r = hi.route.get_instance();
@@ -39,6 +42,9 @@ class jdemo_init {
         });
         jdemo_init.r.get("^/md5/?$", (hi.request req, hi.response res, Matcher m) -> {
             this.do_md5(req, res);
+        });
+        jdemo_init.r.get("^/template/?", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_mustache_template(req, res);
         });
     }
 
@@ -101,6 +107,20 @@ class jdemo_init {
         String plaintext = "hello,md5!";
         res.status = 200;
         res.content = String.format("%s\nmd5= %s", plaintext, this.md5(plaintext));
+    }
+
+    private void do_mustache_template(hi.request req, hi.response res) {
+        String text = "One, two, {{three}}. Three sir!";
+        Template tmpl = Mustache.compiler().compile(text);
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("three", "five");
+        try {
+            res.content = tmpl.execute(data);
+            res.status = 200;
+        } catch (Exception e) {
+            res.status = 500;
+            res.content = "mustache exception.";
+        }
     }
 
     private String md5(String str) {
