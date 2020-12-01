@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import com.samskivert.mustache.Template;
 import com.samskivert.mustache.Mustache;
+import com.google.gson.Gson;
 
 class jdemo_init {
     private static hi.route r = hi.route.get_instance();
@@ -25,48 +26,51 @@ class jdemo_init {
 
     private jdemo_init() {
         jdemo_init.r.get("^/(hello|test)/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_hello(req, res);
+            this.do_hello(req, res, m);
         });
         jdemo_init.r.get("^/error/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_error(req, res);
+            this.do_error(req, res, m);
         });
         jdemo_init.r.get("^/redirect/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_redirect(req, res);
+            this.do_redirect(req, res, m);
         });
         jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET", "POST")), "^/form/?$",
                 (hi.request req, hi.response res, Matcher m) -> {
-                    this.do_form(req, res);
+                    this.do_form(req, res, m);
                 });
         jdemo_init.r.get("^/session/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_session(req, res);
+            this.do_session(req, res, m);
         });
         jdemo_init.r.get("^/md5/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_md5(req, res);
+            this.do_md5(req, res, m);
         });
         jdemo_init.r.get("^/template/?", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_mustache_template(req, res);
+            this.do_template(req, res, m);
+        });
+        jdemo_init.r.get("^/gson/?", (hi.request req, hi.response res, Matcher m) -> {
+            this.do_gson(req, res, m);
         });
     }
 
-    private void do_hello(hi.request req, hi.response res) {
+    private void do_hello(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
         res.set_cookie("test-k", "test-v", "Max-Age=3; Path=/");
         res.status = 200;
         res.content = "hello,world";
     }
 
-    private void do_error(hi.request req, hi.response res) {
+    private void do_error(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
         res.status = 404;
         res.content = "404 Not found";
     }
 
-    private void do_redirect(hi.request req, hi.response res) {
+    private void do_redirect(hi.request req, hi.response res, Matcher m) {
         res.status = 302;
         res.set_header("Location", "/hello.java");
     }
 
-    private void do_form(hi.request req, hi.response res) {
+    private void do_form(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
         res.set_cookie("test-k", "test-v", "max-age=3; Path=/;");
         res.status = 200;
@@ -87,7 +91,7 @@ class jdemo_init {
         res.content = buffer.toString();
     }
 
-    private void do_session(hi.request req, hi.response res) {
+    private void do_session(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
         res.set_cookie("test-k", "test-v", "max-age=3; Path=/;");
         res.status = 200;
@@ -101,7 +105,7 @@ class jdemo_init {
         res.status = 200;
     }
 
-    private void do_md5(hi.request req, hi.response res) {
+    private void do_md5(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=UTF-8");
         res.set_cookie("test-k", "test-v", "max-age=3; Path=/;");
         String plaintext = "hello,md5!";
@@ -109,7 +113,7 @@ class jdemo_init {
         res.content = String.format("%s\nmd5= %s", plaintext, this.md5(plaintext));
     }
 
-    private void do_mustache_template(hi.request req, hi.response res) {
+    private void do_template(hi.request req, hi.response res, Matcher m) {
         String text = "One, two, {{three}}. Three sir!";
         Template tmpl = Mustache.compiler().compile(text);
         Map<String, String> data = new HashMap<String, String>();
@@ -121,6 +125,17 @@ class jdemo_init {
             res.status = 500;
             res.content = "mustache exception.";
         }
+    }
+
+    private void do_gson(hi.request req, hi.response res, Matcher m) {
+        Gson gson = new Gson();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("name", "JTZen9");
+        map.put("age", 21);
+        map.put("sex", "male");
+        res.content = gson.toJson(map);
+        res.status = 200;
+        res.set_content_type("Content-type: application/json");
     }
 
     private String md5(String str) {
