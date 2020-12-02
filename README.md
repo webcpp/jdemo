@@ -19,7 +19,7 @@ location ~ \.java {
             hi_need_session on;
             hi_need_headers on;
             hi_need_cookies on;
-		    hi_java_servlet hi/jdemo;	
+            hi_java_servlet hi/jdemo;	
         }
 
 
