@@ -51,6 +51,7 @@ class jdemo_init {
         jdemo_init.r.get("^/gson/?", (hi.request req, hi.response res, Matcher m) -> {
             this.do_gson(req, res, m);
         });
+        jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET")), "^/helloworld/?", "hi.helloworld");
     }
 
     private void do_hello(hi.request req, hi.response res, Matcher m) {
@@ -136,7 +137,7 @@ class jdemo_init {
         map.put("sex", "male");
         res.content = gson.toJson(map);
         res.status = 200;
-        res.set_content_type("Content-type: application/json");
+        res.set_content_type("application/json");
     }
 
     private String md5(String str) {

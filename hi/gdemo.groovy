@@ -41,6 +41,7 @@ class gdemo implements hi.servlet {
         gdemo.r.get('^/gson/?$', (hi.request req, hi.response res, Matcher m) -> {
             this.do_gson(req, res, m)
         });
+        gdemo.r.add(new ArrayList<String>(Arrays.asList('GET')), '^/helloworld/?', 'hi.helloworld')
     }
 
     public void handler(hi.request req, hi.response res) {
