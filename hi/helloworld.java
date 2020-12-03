@@ -9,7 +9,7 @@ public class helloworld implements hi.route.run_t {
     public helloworld() {
     }
 
-    public void handler(request req, response res, Matcher m) {
+    public void handler(hi.request req, hi.response res, Matcher m) {
         res.set_content_type("text/plain;charset=utf-8");
         res.content = "hello,world\n";
         res.status = 200;

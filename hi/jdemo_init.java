@@ -34,7 +34,7 @@ class jdemo_init {
         jdemo_init.r.get("^/md5/?$", this::do_md5);
         jdemo_init.r.get("^/template/?", this::do_template);
         jdemo_init.r.get("^/gson/?", this::do_gson);
-        jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET")), "^/helloworld/?", "hi.helloworld");
+        jdemo_init.r.get("^/helloworld/?", "hi.helloworld");
     }
 
     private void do_hello(hi.request req, hi.response res, Matcher m) {
