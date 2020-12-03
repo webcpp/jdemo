@@ -25,7 +25,7 @@ class gdemo implements hi.servlet {
         gdemo.r.get('^/md5/?$', this::do_md5)
         gdemo.r.get('^/template/?$', this::do_template)
         gdemo.r.get('^/gson/?$', this::do_gson)
-        gdemo.r.add(new ArrayList<String>(Arrays.asList('GET')), '^/helloworld/?', 'hi.helloworld')
+        gdemo.r.get('^/helloworld/?', 'hi.helloworld')
     }
 
     public void handler(hi.request req, hi.response res) {
