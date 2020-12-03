@@ -26,31 +26,14 @@ class jdemo_init {
     }
 
     private jdemo_init() {
-        jdemo_init.r.get("^/(hello|test)/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_hello(req, res, m);
-        });
-        jdemo_init.r.get("^/error/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_error(req, res, m);
-        });
-        jdemo_init.r.get("^/redirect/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_redirect(req, res, m);
-        });
-        jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET", "POST")), "^/form/?$",
-                (hi.request req, hi.response res, Matcher m) -> {
-                    this.do_form(req, res, m);
-                });
-        jdemo_init.r.get("^/session/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_session(req, res, m);
-        });
-        jdemo_init.r.get("^/md5/?$", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_md5(req, res, m);
-        });
-        jdemo_init.r.get("^/template/?", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_template(req, res, m);
-        });
-        jdemo_init.r.get("^/gson/?", (hi.request req, hi.response res, Matcher m) -> {
-            this.do_gson(req, res, m);
-        });
+        jdemo_init.r.get("^/(hello|test)/?$", this::do_hello);
+        jdemo_init.r.get("^/error/?$", this::do_error);
+        jdemo_init.r.get("^/redirect/?$", this::do_redirect);
+        jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET", "POST")), "^/form/?$", this::do_form);
+        jdemo_init.r.get("^/session/?$", this::do_session);
+        jdemo_init.r.get("^/md5/?$", this::do_md5);
+        jdemo_init.r.get("^/template/?", this::do_template);
+        jdemo_init.r.get("^/gson/?", this::do_gson);
         jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET")), "^/helloworld/?", "hi.helloworld");
     }
 
