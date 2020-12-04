@@ -14,27 +14,22 @@ import com.google.gson.Gson;
 import org.apache.commons.codec.digest.DigestUtils;
 
 class jdemo_init {
-    private static hi.route r = hi.route.get_instance();
     private static jdemo_init instance = new jdemo_init();
 
     public static jdemo_init get_instance() {
         return jdemo_init.instance;
     }
 
-    public hi.route get_route() {
-        return jdemo_init.r;
-    }
-
     private jdemo_init() {
-        jdemo_init.r.get("^/(hello|test)/?$", this::do_hello);
-        jdemo_init.r.get("^/error/?$", this::do_error);
-        jdemo_init.r.get("^/redirect/?$", this::do_redirect);
-        jdemo_init.r.add(new ArrayList<String>(Arrays.asList("GET", "POST")), "^/form/?$", this::do_form);
-        jdemo_init.r.get("^/session/?$", this::do_session);
-        jdemo_init.r.get("^/md5/?$", this::do_md5);
-        jdemo_init.r.get("^/template/?", this::do_template);
-        jdemo_init.r.get("^/gson/?", this::do_gson);
-        jdemo_init.r.get("^/helloworld/?", "hi.helloworld");
+        hi.route r = hi.route.get_instance();
+        r.get("^/(hello|test)/?$", this::do_hello);
+        r.get("^/error/?$", this::do_error);
+        r.get("^/redirect/?$", this::do_redirect);
+        r.add(new ArrayList<String>(Arrays.asList("GET", "POST")), "^/form/?$", this::do_form);
+        r.get("^/session/?$", this::do_session);
+        r.get("^/md5/?$", this::do_md5);
+        r.get("^/template/?", this::do_template);
+        r.get("^/gson/?", this::do_gson);
     }
 
     private void do_hello(hi.request req, hi.response res, Matcher m) {
