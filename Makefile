@@ -13,7 +13,7 @@ GROOVYC = ${GROOVY_HOME}/bin/groovyc
 GROOVY_FLAGS = $(JFLAGS)
 
 JAR = ${JAVA_HOME}/bin/jar
-JAR_FLAGS = --create --file
+JAR_FLAGS = cfv
 
 
 
@@ -25,7 +25,7 @@ ${PRO}:
 	find . -name *.groovy -type f > gsrc.list && \
 	$(GROOVYC) $(GROOVY_FLAGS) @gsrc.list 
 	find . -name *.class -type f > class.list && \
-	$(JAR) $(JAR_FLAGS) ${PRO} @class.list
+	$(JAR) $(JAR_FLAGS) ${PRO} `cat class.list`
 
 
 clean:
