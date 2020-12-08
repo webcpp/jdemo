@@ -33,9 +33,9 @@ clean:
 
 
 jmeter:
-	[ -d test ] && rm -rf test
-	mkdir test
-	/usr/lib/jvm/apache-jmeter-5.3/bin/jmeter -n -t test.jmx -l test/ret -e -o test
+	[ -d jmeter_test ] && rm -rf jmeter_test
+	mkdir jmeter_test
+	/usr/lib/jvm/apache-jmeter-5.3/bin/jmeter -n -t test.jmx -l jmeter_test/ret -e -o jmeter_test
 
 install:${OBJ}
 	install ${PRO} $(NGINX_INSTALL_DIR)/java
