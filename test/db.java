@@ -19,6 +19,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.BeanMapHandler;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
@@ -87,12 +88,12 @@ public class db implements hi.route.run_t {
         String sql = "SELECT * FROM `websites` ORDER BY `id` LIMIT 0,5;";
         try {
             QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
-            List<website> result = qr.query(sql, new BeanListHandler<website>(website.class));
+            Map<String, website> result = qr.query(sql, new BeanMapHandler<String, website>(website.class));
             StringBuffer content = new StringBuffer();
 
-            for (website item : result) {
-                content.append(
-                        String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(), item.getUrl()));
+            for (Map.Entry<String, website> item : result.entrySet()) {
+                content.append(String.format("%s\tid = %s\tname = %s\turl = %s\n", item.getKey(),
+                        item.getValue().getId(), item.getValue().getName(), item.getValue().getUrl()));
             }
 
             res.content = content.toString();
