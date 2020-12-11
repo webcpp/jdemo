@@ -18,6 +18,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
@@ -48,21 +49,50 @@ public class db implements hi.route.run_t {
         }
     }
 
+    public static class website {
+        private int id;
+        private String url;
+        private String name;
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return this.id;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            return this.url;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
+
     public db() {
 
     }
 
     public void handler(hi.request req, hi.response res, Matcher m) {
-        String sql = "SELECT * FROM `article` ORDER BY `id` LIMIT 0,5;";
+        String sql = "SELECT * FROM `websites` ORDER BY `id` LIMIT 0,5;";
         try {
             QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
-            List<Map<String, Object>> result = qr.query(sql, new MapListHandler());
+            List<website> result = qr.query(sql, new BeanListHandler<website>(website.class));
             StringBuffer content = new StringBuffer();
-            for (Map<String, Object> item : result) {
-                for (Map.Entry<String, Object> iter : item.entrySet()) {
-                    content.append(String.format("%s = %s\n", iter.getKey(), iter.getValue().toString()));
-                }
-                content.append("\n\n");
+
+            for (website item : result) {
+                content.append(
+                        String.format("id = %s\tname = %s\turl = %s\n", item.getId(), item.getName(), item.getUrl()));
             }
 
             res.content = content.toString();
@@ -72,4 +102,5 @@ public class db implements hi.route.run_t {
             res.status = 500;
         }
     }
+
 }
