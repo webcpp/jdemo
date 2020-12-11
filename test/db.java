@@ -19,12 +19,12 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 
-import org.mariadb.jdbc.MariaDbPoolDataSource;
+import com.alibaba.druid.pool.DruidDataSource;
 
 public class db implements hi.route.run_t {
 
     private static class db_help {
-        private static MariaDbPoolDataSource ds = null;
+        private static DruidDataSource ds = null;
 
         private static db_help instance = new db_help();
 
@@ -36,12 +36,13 @@ public class db implements hi.route.run_t {
             return db_help.instance;
         }
 
-        public MariaDbPoolDataSource get_data_source() throws SQLException {
+        public DruidDataSource get_data_source() throws SQLException {
             if (db_help.ds != null) {
                 return db_help.ds;
             }
-            db_help.ds = new MariaDbPoolDataSource(hi.route.get_instance().get_config().getString("mariadb.url"));
-            db_help.ds.setUser(hi.route.get_instance().get_config().getString("mariadb.username"));
+            db_help.ds = new DruidDataSource();
+            db_help.ds.setUrl(hi.route.get_instance().get_config().getString("mariadb.url"));
+            db_help.ds.setUsername(hi.route.get_instance().get_config().getString("mariadb.username"));
             db_help.ds.setPassword(hi.route.get_instance().get_config().getString("mariadb.password"));
             return db_help.ds;
         }
