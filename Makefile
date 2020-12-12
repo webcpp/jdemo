@@ -33,7 +33,7 @@ clean:
 
 
 jmeter:
-	[ -d jmeter_test ] && rm -rf jmeter_test
+	if [ -d jmeter_test ];then rm -rf jmeter_test;fi
 	mkdir jmeter_test
 	/usr/lib/jvm/apache-jmeter-5.3/bin/jmeter -n -t test.jmx -l jmeter_test/ret -e -o jmeter_test
 
