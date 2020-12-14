@@ -28,6 +28,7 @@ public class list implements hi.route.run_t {
             if (req.form.containsKey("size")) {
                 params[1] = Integer.valueOf(req.form.get("size")).intValue();
             }
+            res.set_content_type("text/plain;charset=UTF-8");
             try {
                 QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
 

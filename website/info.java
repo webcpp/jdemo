@@ -24,6 +24,7 @@ public class info implements hi.route.run_t {
             Object[] params = new Object[1];
             if (req.form.containsKey("id")) {
                 params[0] = Integer.valueOf(req.form.get("id")).intValue();
+                res.set_content_type("text/plain;charset=UTF-8");
                 try {
                     QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
 
@@ -35,7 +36,6 @@ public class info implements hi.route.run_t {
                         content.append(String.format("%s\tid = %s\tname = %s\turl = %s\n", item.getKey(),
                                 item.getValue().getId(), item.getValue().getName(), item.getValue().getUrl()));
                     }
-
                     res.content = content.toString();
                     res.status = 200;
                 } catch (SQLException e) {
