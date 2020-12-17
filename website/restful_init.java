@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ArrayHandler;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import com.google.gson.Gson;
 
 import website.website;
@@ -83,27 +83,34 @@ public class restful_init {
     }
 
     private void do_get_one(hi.request req, hi.response res, Matcher m) {
-        String sql = "SELECT * FROM `websites` WHERE `id`=?;";
-        Object[] params = new Object[1];
-        if (m.find()) {
-            params[0] = Integer.valueOf(m.group(1)).intValue();
-        }
-        res.set_content_type("application/json");
-        Gson gson = new Gson();
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        try {
-            QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
-
-            List<website> result = qr.query(sql, new BeanListHandler<website>(website.class), params);
-            map.put("status", true);
-            map.put("data", result);
-            res.content = gson.toJson(map);
+        String cache_k = DigestUtils.md5Hex(req.uri);
+        if (req.cache.containsKey(cache_k)) {
+            res.content = req.cache.get(cache_k);
             res.status = 200;
-        } catch (SQLException e) {
-            map.put("status", false);
-            map.put("message", e.getMessage());
-            res.content = gson.toJson(map);
-            res.status = 500;
+        } else {
+            String sql = "SELECT * FROM `websites` WHERE `id`=?;";
+            Object[] params = new Object[1];
+            if (m.find()) {
+                params[0] = Integer.valueOf(m.group(1)).intValue();
+            }
+            res.set_content_type("application/json");
+            Gson gson = new Gson();
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            try {
+                QueryRunner qr = new QueryRunner(db_help.get_instance().get_data_source());
+
+                List<website> result = qr.query(sql, new BeanListHandler<website>(website.class), params);
+                map.put("status", true);
+                map.put("data", result);
+                res.content = gson.toJson(map);
+                res.status = 200;
+                res.cache.put(cache_k, res.content);
+            } catch (SQLException e) {
+                map.put("status", false);
+                map.put("message", e.getMessage());
+                res.content = gson.toJson(map);
+                res.status = 500;
+            }
         }
 
     }
