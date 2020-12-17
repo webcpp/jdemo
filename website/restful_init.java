@@ -85,6 +85,7 @@ public class restful_init {
     private void do_get_one(hi.request req, hi.response res, Matcher m) {
         String cache_k = DigestUtils.md5Hex(req.uri);
         if (req.cache.containsKey(cache_k)) {
+            res.set_content_type("application/json");
             res.content = req.cache.get(cache_k);
             res.status = 200;
         } else {
