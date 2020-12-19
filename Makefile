@@ -24,18 +24,18 @@ JAR_FLAGS = cfv
 default: ${PRO}
 
 ${PRO}:
-	find . -name *.java -type f > jsrc.list && \
-	$(JAVAC) $(JAVA_FLAGS) @jsrc.list
-	find . -name *.groovy -type f > gsrc.list && \
-	$(GROOVYC) $(GROOVY_FLAGS) @gsrc.list 
-	find . -name *.scala -type f > ssrc.list && \
-	$(SCALAC) $(SCALAC_FLAGS) @ssrc.list
+	find . -name *.java -type f > java_src.list && \
+	$(JAVAC) $(JAVA_FLAGS) @java_src.list
+	find . -name *.groovy -type f > groovy_src.list && \
+	$(GROOVYC) $(GROOVY_FLAGS) @groovy_src.list 
+	find . -name *.scala -type f > scala_src.list && \
+	$(SCALAC) $(SCALAC_FLAGS) @scala_src.list
 	find . -name *.class -type f > class.list && \
 	$(JAR) $(JAR_FLAGS) ${PRO} `cat class.list`
 
 
 clean:
-	rm -f ${PRO} jsrc.list gsrc.list ssrc.list `cat class.list` class.list
+	rm -f ${PRO} java_src.list groovy_src.list scala_src.list `cat class.list` class.list
 
 
 jmeter:
