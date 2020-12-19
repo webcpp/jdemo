@@ -10,7 +10,11 @@ JAVAC = ${JAVA_HOME}/bin/javac
 JAVA_FLAGS =-classpath .:${CLASSPATH}
 
 GROOVYC = ${GROOVY_HOME}/bin/groovyc
-GROOVY_FLAGS = $(JFLAGS)
+GROOVY_FLAGS = $(JAVA_FLAGS)
+
+
+SCALAC = ${SCALA_HOME}/bin/scalac
+SCALAC_FLAGS = $(JAVA_FLAGS)
 
 JAR = ${JAVA_HOME}/bin/jar
 JAR_FLAGS = cfv
@@ -24,12 +28,14 @@ ${PRO}:
 	$(JAVAC) $(JAVA_FLAGS) @jsrc.list
 	find . -name *.groovy -type f > gsrc.list && \
 	$(GROOVYC) $(GROOVY_FLAGS) @gsrc.list 
+	find . -name *.scala -type f > ssrc.list && \
+	$(SCALAC) $(SCALAC_FLAGS) @ssrc.list
 	find . -name *.class -type f > class.list && \
 	$(JAR) $(JAR_FLAGS) ${PRO} `cat class.list`
 
 
 clean:
-	rm -f ${PRO} jsrc.list gsrc.list `cat class.list` class.list
+	rm -f ${PRO} jsrc.list gsrc.list ssrc.list `cat class.list` class.list
 
 
 jmeter:
