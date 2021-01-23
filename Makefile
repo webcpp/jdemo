@@ -43,11 +43,6 @@ clean:
 	rm -f ${PRO} java_src.list groovy_src.list scala_src.list kotlin_src.list `cat class.list` class.list
 
 
-jmeter:
-	if [ -d benchmark ];then rm -rf benchmark;fi
-	mkdir benchmark
-	/usr/lib/jvm/apache-jmeter-5.3/bin/jmeter -n -t benchmark.jmx -l benchmark/ret -e -o benchmark
-
 install:${OBJ}
 	install ${PRO} $(NGINX_INSTALL_DIR)/java
 
